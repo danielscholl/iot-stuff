@@ -1,10 +1,18 @@
 version: '2'
 services:
-  device:
+  device-js:
     build: js
     image: localhost:5000/iot-device-js:latest
     environment:
-      DEVICE: $DEVICE
-      DEVICE_CONNECTION_STRING: $DEVICE_CONNECTION_STRING
+      DEVICE: $DEVICE_JS
+      DEVICE_CONNECTION_STRING: $DEVICE_JS_CONNECTION
+      MESSAGE_INTERVAL: 2000
+      LOG_LEVEL: debug
+  device-net:
+    build: dotnet
+    image: localhost:5000/iot-device-net:latest
+    environment:
+      DEVICE: $DEVICE_NET
+      DEVICE_CONNECTION_STRING: $DEVICE_NET_CONNECTION
       MESSAGE_INTERVAL: 2000
       LOG_LEVEL: debug
