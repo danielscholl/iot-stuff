@@ -6,8 +6,8 @@ services:
     environment:
       DEVICE: $DEVICE_JS
       DEVICE_CONNECTION_STRING: $DEVICE_JS_CONNECTION
-      MESSAGE_INTERVAL: 2000
-      LOG_LEVEL: debug
+      MESSAGE_INTERVAL: 2
+      LOG_LEVEL: info
   device-net:
     build: dotnet
     image: localhost:5000/iot-device-net:latest
@@ -15,4 +15,4 @@ services:
       DEVICE: $DEVICE_NET
       DEVICE_CONNECTION_STRING: $DEVICE_NET_CONNECTION
       MESSAGE_INTERVAL: 2000
-      LOG_LEVEL: debug
+      LOG_LEVEL: info

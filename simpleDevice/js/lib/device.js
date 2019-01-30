@@ -68,7 +68,7 @@ const Device = function (config, Model) {
     intervalLoop = setInterval(sendMessage, config.interval);
   };
 
-  client.onDeviceMethod('SetTelemetryInterval', receiveMessage);
+  client.onDeviceMethod('setInterval', receiveMessage);
 
   return self;
 };

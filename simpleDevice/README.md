@@ -20,14 +20,13 @@
   export DEVICE_JS_CONNECTION=$(az iot hub device-identity show-connection-string --hub-name $Hub --device-id $DEVICE_JS -otsv)
   export DEVICE_NET_CONNECTION=$(az iot hub device-identity show-connection-string --hub-name $Hub --device-id $DEVICE_NET -otsv)
 
-  # Build the Docker Containers
-  docker-compose build
-
-  # Run the Docker Containers
-  docker-compose up
+  # Build and Run the Docker Containers
+  docker-compose up --build
 
   # Adjust the Interval Spped
-  Data="{ methodName: 'SetTelemetryInterval', payload: 10, responseTimeoutInSeconds: 30 }"
-  az iot device c2d-message send --hub-name $Hub --device-id $DEVICE_JS --data $Data
+  Data="{ 'methodName': 'setInterval', 'payload': 10, 'responseTimeoutInSeconds': 30 }"
+  az iot device c2d-message send \
+    --hub-name $Hub --device-id $DEVICE_JS \
+    --data "{ 'methodName': 'setInterval', 'payload': 10, 'responseTimeoutInSeconds': 30 }"
 }
   ```

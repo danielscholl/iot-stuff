@@ -1,9 +1,9 @@
 const Model = function () {
   let self = this;
 
-  self.Interval = function Device({ responseTimeoutInSeconds = 30, interval = 10 } = {}) {
+  self.Interval = function Device({ responseTimeoutInSeconds = 30, interval = 2 } = {}) {
     return {
-      methodName: 'SetTelemetryInterval',
+      methodName: 'setInterval',
       payload: interval,
       responseTimeoutInSeconds: responseTimeoutInSeconds,
       toJson: function toJson() {
