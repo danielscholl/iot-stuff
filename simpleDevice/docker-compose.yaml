@@ -1,0 +1,10 @@
+version: '2'
+services:
+  device:
+    build: js
+    image: localhost:5000/iot-device-js:latest
+    environment:
+      DEVICE: $DEVICE
+      DEVICE_CONNECTION_STRING: $DEVICE_CONNECTION_STRING
+      MESSAGE_INTERVAL: 2000
+      LOG_LEVEL: debug
