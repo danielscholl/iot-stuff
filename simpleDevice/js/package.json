@@ -4,7 +4,7 @@
   "description": "Simple Device Connecting to IOT Hub",
   "main": "index.js",
   "scripts": {
-    "monitor": "az iot hub monitor-events --hub-name $IOTHUB --device-id $DEVICE",
+    "monitor": "az iot hub monitor-events --hub-name $HUB --device-id $DEVICE",
     "start": "node index.js",
     "test": "tape test/*.spec.js",
     "watch": "watch 'clear && npm run -s test' .",

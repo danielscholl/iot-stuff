@@ -1,0 +1,18 @@
+{
+  "name": "simpleconsumer",
+  "version": "1.0.0",
+  "description": "Simple Consumer Connecting to IOT Hub",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "clean": "rm -rf node_modules"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "azure-iothub": "^1.9.2",
+    "bunyan": "^1.8.12",
+    "bunyan-format": "^0.2.1"
+  },
+  "devDependencies": {}
+}

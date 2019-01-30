@@ -16,8 +16,36 @@ const Device = function (config, Model) {
 
   let self = this;
   let client = Client.fromConnectionString(config.connectionString, Protocol);
+  let intervalLoop = null;
 
   //////////////////////// INITIALIZATION DONE
+
+  const receiveMessage = function receiveMessage(request, response) {
+
+    const receiveResponse = function receiveResponse(err) {
+      if (err) {
+        log.error('An error ocurred when sending a method response:\n' + err.toString());
+      } else {
+        log.info('Response to method \'' + request.methodName + '\' sent successfully.');
+      }
+    };
+
+    log.info('Direct method payload received:');
+    log.info(request.payload);
+
+    if (isNaN(request.payload)) {
+      log.info('Invalid interval response received in payload');
+      response.send(400, 'Invalid direct method parameter: ' + request.payload, receiveResponse);
+
+    } else {
+      config.interval = request.payload * 1000;
+
+      clearInterval(intervalLoop);
+      intervalLoop = setInterval(self.sendMessage, config.interval);
+
+      response.send(200, 'Telemetry interval set: ' + request.payload, receiveResponse);
+    }
+  };
 
   const sendMessage = function sendMessage() {
     let telemetry = Model();
@@ -37,8 +65,10 @@ const Device = function (config, Model) {
   /////////////////////////////////////////
 
   self.sendMessage = () => {
-    setInterval(sendMessage, config.interval);
+    intervalLoop = setInterval(sendMessage, config.interval);
   };
+
+  client.onDeviceMethod('SetTelemetryInterval', receiveMessage);
 
   return self;
 };

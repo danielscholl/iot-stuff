@@ -25,4 +25,9 @@
 
   # Run the Docker Containers
   docker-compose up
+
+  # Adjust the Interval Spped
+  Data="{ methodName: 'SetTelemetryInterval', payload: 10, responseTimeoutInSeconds: 30 }"
+  az iot device c2d-message send --hub-name $Hub --device-id $DEVICE_JS --data $Data
+}
   ```
