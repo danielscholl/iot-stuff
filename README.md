@@ -42,7 +42,7 @@ az iot device simulate --hub-name $Hub --device-id $Device \
 
 ### Sending C2D Messages
 
-_Monitor IoT Hub Events in Terminal Window 1_
+_Monitor for Device Events in Terminal Window 1_
 
 ```bash
 Hub="cli-hub" Device="DirectDevice"
@@ -75,7 +75,7 @@ az iot hub monitor-events --hub-name $Hub --device-id $Device
 ```
 
 
-_Monitor IoT Hub Events in Terminal Window 2_
+_Simulate Device Sending Events in Terminal Window 2_
 
 ```bash
 Hub="cli-hub" Device="DirectDevice"
