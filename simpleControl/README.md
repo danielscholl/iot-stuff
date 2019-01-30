@@ -9,12 +9,11 @@
 2. Run the Container(s)
 
   ```bash
-  Hub="cli-hub" DEVICE_JS="DirectDevice-JS" DEVICE_NET="DirectDevice-NET"
-
   # Export the required Environment variables
+  export Hub="cli-hub"
   export DEVICE_JS="DirectDevice-JS" DEVICE_NET="DirectDevice-NET"
-  export DEVICE_JS_CONNECTION=$(az iot hub device-identity show-connection-string --hub-name $Hub --device-id $DEVICE_JS -otsv)
+  export HUB_CONNECTION_STRING=$(az iot hub  show-connection-string --hub-name $Hub -otsv)
 
-  # Execute the Docker Container
-  MESSAGE_INTERVAL=10 docker run -it localhost:5000/iot-control-js:latest
+  # Build and Execute the Docker Container
+  MESSAGE_INTERVAL=10 docker-compose up --build
   ```

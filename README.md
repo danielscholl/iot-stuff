@@ -106,7 +106,7 @@ _Send Cloud to Device Messages in Terminal Window 3_
 Hub="cli-hub" Device="DirectDevice"    # Using Bash
 $Hub,$Device="cli-hub","DirectDevice"  # Using Powershell
 
-# Send a Single Device to Cloud Message
+# Send a Single Cloud to Device Message
 az iot device c2d-message send --hub-name $Hub --device-id $Device \
     --data "Hello Device"
 ```

@@ -16,7 +16,7 @@ const config = {
 };
 
 let client = Client.fromConnectionString(config.connectionString);
-let parameters = new Parameters.Interval({ interval: process.env.MESSAGE_INTERVAL || 2000 });
+let parameters = new Parameters.Interval({ interval: process.env.MESSAGE_INTERVAL || 2 });
 
 log.debug('Message:' + parameters.methodName + ' for ' + config.deviceId + ' @' + (new Date()).toUTCString());
 log.info(parameters.toJson());

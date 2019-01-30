@@ -42,7 +42,6 @@ const Device = function (config, Model) {
 
       clearInterval(intervalLoop);
       self.sendMessage();
-      //intervalLoop = setInterval(self.sendMessage, config.interval);
 
       response.send(200, 'Telemetry interval set: ' + request.payload, receiveResponse);
     }
@@ -55,6 +54,7 @@ const Device = function (config, Model) {
 
     let message = new Message(telemetry.toJson());
     message.properties.add('version', Package.version);
+    message.properties.add('Telemetry', 'Climate');
 
     log.info('Sending message: ' + message.getData());
     client.sendEvent(message, function (err) {

@@ -1,0 +1,10 @@
+version: '2'
+services:
+  device-js:
+    build: js
+    image: localhost:5000/iot-control-js:latest
+    environment:
+      DEVICE: $DEVICE_JS
+      HUB_CONNECTION_STRING: $HUB_CONNECTION_STRING
+      MESSAGE_INTERVAL: 6
+      LOG_LEVEL: debug
