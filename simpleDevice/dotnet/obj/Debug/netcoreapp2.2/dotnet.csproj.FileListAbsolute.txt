@@ -1,0 +1,11 @@
+C:\Users\degno\source\iot\iot-stuff\simpleDevice\dotnet\obj\Debug\netcoreapp2.2\dotnet.csprojAssemblyReference.cache
+C:\Users\degno\source\iot\iot-stuff\simpleDevice\dotnet\obj\Debug\netcoreapp2.2\dotnet.csproj.CoreCompileInputs.cache
+C:\Users\degno\source\iot\iot-stuff\simpleDevice\dotnet\obj\Debug\netcoreapp2.2\dotnet.AssemblyInfoInputs.cache
+C:\Users\degno\source\iot\iot-stuff\simpleDevice\dotnet\obj\Debug\netcoreapp2.2\dotnet.AssemblyInfo.cs
+C:\Users\degno\source\iot\iot-stuff\simpleDevice\dotnet\bin\Debug\netcoreapp2.2\dotnet.deps.json
+C:\Users\degno\source\iot\iot-stuff\simpleDevice\dotnet\bin\Debug\netcoreapp2.2\dotnet.runtimeconfig.json
+C:\Users\degno\source\iot\iot-stuff\simpleDevice\dotnet\bin\Debug\netcoreapp2.2\dotnet.runtimeconfig.dev.json
+C:\Users\degno\source\iot\iot-stuff\simpleDevice\dotnet\bin\Debug\netcoreapp2.2\dotnet.dll
+C:\Users\degno\source\iot\iot-stuff\simpleDevice\dotnet\bin\Debug\netcoreapp2.2\dotnet.pdb
+C:\Users\degno\source\iot\iot-stuff\simpleDevice\dotnet\obj\Debug\netcoreapp2.2\dotnet.dll
+C:\Users\degno\source\iot\iot-stuff\simpleDevice\dotnet\obj\Debug\netcoreapp2.2\dotnet.pdb
