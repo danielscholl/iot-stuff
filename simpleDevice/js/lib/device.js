@@ -41,7 +41,8 @@ const Device = function (config, Model) {
       config.interval = request.payload * 1000;
 
       clearInterval(intervalLoop);
-      intervalLoop = setInterval(self.sendMessage, config.interval);
+      self.sendMessage();
+      //intervalLoop = setInterval(self.sendMessage, config.interval);
 
       response.send(200, 'Telemetry interval set: ' + request.payload, receiveResponse);
     }
