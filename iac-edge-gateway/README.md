@@ -70,11 +70,36 @@ export TF_VAR_client_secret=${ARM_CLIENT_SECRET}
 ############
 
 # Initialize a Device and Prepare the Configurations
-./init.sh
-
-# Configure the IoT Edge Device
-./configure.sh
+./install.sh
 ```
+
+## Deploy the Sample Temperature Module
+
+```bash
+# Deploy the manifest
+./deploy.sh
+
+# If removing the Temperature Module
+./deploy.sh ./manifests/cleanSolution.json
+```
+
+## Validate and Test the Deployment
+
+```bash
+# Validate a successful installation and module deployment
+./connect.sh
+terraform@EdgeVM:~$  systemctl status iotedge
+terraform@EdgeVM:~$  journalctl -u iotedge --no-pager --no-full
+terraform@EdgeVM:~$  sudo iotedge list
+terraform@EdgeVM:~$  sudo iotedge logs tempSensor
+
+# If failed
+terraform@EdgeVM:~$  sudo systemctl daemon-reload
+terraform@EdgeVM:~$  sudo systemctl restart iotedge
+terraform@EdgeVM:~$  systemctl status iotedge
+```
+
+
 
 _[Terraform AzureRM Provider Issue #2764](https://github.com/terraform-providers/terraform-provider-azurerm/pull/2764)_
 
