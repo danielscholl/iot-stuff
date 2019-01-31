@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Client;
 
@@ -8,38 +7,56 @@ namespace SimpleDevice
 {
     class Program
     {
-        private static string DeviceConnectionString;
+        private readonly static string _connectionString = Environment.GetEnvironmentVariable("DEVICE_CONNECTION_STRING");
+        private static int interval = 2;
+        private static DeviceClient client;
 
-
-        static async Task Main(string[] args)
+        private static Task<MethodResponse> SetInterval(MethodRequest methodRequest, object userContext)
         {
-            DeviceConnectionString = Environment.GetEnvironmentVariable("DEVICE_CONNECTION_STRING");
+            var data = Encoding.UTF8.GetString(methodRequest.Data);
+            if (Int32.TryParse(data, out interval))
+            {
+                Log(ConsoleColor.Blue, String.Format("Telemetry interval set to {0} seconds", data));
 
-            Console.WriteLine("Initializing Device Agent...");
-            var device = DeviceClient.CreateFromConnectionString(DeviceConnectionString);
-            await device.OpenAsync();
+                string result = "{\"result\":\"Executed direct method: " + methodRequest.Name + "\"}";
+                return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 200));
+            }
+            else
+            {
+                string result = "{\"result\":\"Invalid parameter\"}";
+                return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 400));
+            }
+        }
 
-            Console.WriteLine("Device is connected!");
-            Console.WriteLine("Press any key to exit...");
-
-
+        private static async void SendTelemetry() {
             Random rand = new Random();
+
             while (true)
             {
-
-                var telemetry = new Model.Device
-                {
-                    WindSpeed = 10 + rand.NextDouble() * 4,
-                    Humidity = 60 + rand.NextDouble() * 20
-                };
+                var telemetry = new Model.Climate();
                 var message = new Message(Encoding.ASCII.GetBytes(telemetry.toJson()));
+                message.Properties.Add("TelemetryType", "Climate");
 
-                Console.WriteLine("Sending message: " + Encoding.ASCII.GetString(message.GetBytes()));
-                await device.SendEventAsync(message);
+                Log(ConsoleColor.Green, "Sending message: " + Encoding.ASCII.GetString(message.GetBytes()));
+                await client.SendEventAsync(message);
+                Log(ConsoleColor.DarkGray,"SendEvent: " + DateTime.UtcNow);
 
-                Console.WriteLine("SendEvent: " + DateTime.UtcNow);
-                Thread.Sleep(2000);
+                await Task.Delay(interval * 1000);
             }
+        }
+
+        private static void Main(string[] args)
+        {
+            client = DeviceClient.CreateFromConnectionString(_connectionString);
+            client.SetMethodHandlerAsync("SetInterval", SetInterval, null).Wait();
+            SendTelemetry();
+            Console.ReadLine();
+        }
+
+        public static void Log(ConsoleColor color, string message) {
+            Console.ForegroundColor = color;
+            Console.WriteLine(message);
+            Console.ResetColor();
         }
     }
 }
