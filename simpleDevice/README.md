@@ -26,3 +26,7 @@ __Run the Container(s)__
   # Build and Run the Docker Containers
   docker-compose up --build
   ```
+
+> Reference Links
+  - [https://docs.microsoft.com/en-us/azure/iot-hub/quickstart-send-telemetry-dotnet](https://docs.microsoft.com/en-us/azure/iot-hub/quickstart-send-telemetry-dotnet)
+  - [https://docs.microsoft.com/en-us/azure/iot-hub/quickstart-send-telemetry-node](https://docs.microsoft.com/en-us/azure/iot-hub/quickstart-send-telemetry-node)

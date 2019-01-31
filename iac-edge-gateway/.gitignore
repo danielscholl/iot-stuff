@@ -1,0 +1,39 @@
+# Terraform Files
+terraform.tfstate*
+.terraform
+terraform/.ssh/
+
+# IoT Transparent Gateway Certs
+certs/certs
+certs/csr
+certs/intermediateCerts
+certs/newcerts
+certs/private
+certs/index.txt
+certs/index.txt.attr
+certs/index.txt.attr.old
+certs/index.txt.old
+certs/serial
+certs/serial.old
+
+# Ansible Files
+ansible.cfg
+ansible/inventories/azure/hosts
+ansible/inventories/azure/group_vars/all
+ansible/playbooks/roles/iotEdge/files
+ansible/playbooks/*.retry
+
+# VSCode
+.vscode
+
+# dotenv
+.env
+.envrc
+.env.sh
+
+# virtualenv
+.venv
+venv/
+ENV/
+
+

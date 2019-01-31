@@ -1,0 +1,9 @@
+---
+
+- name: update trusted ca
+  shell: /usr/sbin/update-ca-certificates
+
+- name: restart iotedge
+  service:
+    name: iotedge
+    state: reloaded

@@ -1,0 +1,4 @@
+---
+- include: azurecli.yml
+- include: iotedge.yml
+- include: docker.yml

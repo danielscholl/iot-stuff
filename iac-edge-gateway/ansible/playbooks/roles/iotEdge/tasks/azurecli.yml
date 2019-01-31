@@ -1,0 +1,18 @@
+---
+- name: Add Azure repository and update apt cache
+  become: yes
+  apt_repository:
+    repo: "{{ azure_apt_repository }}"
+    update_cache: yes
+    state: present
+
+- name: Add Azure repository key
+  become: yes
+  apt_key:
+    keyserver: "{{ azure_apt_key_server }}"
+    id: "{{ azure_apt_key_sig }}"
+    state: present
+
+- name: Install Azure CLI
+  become: yes
+  apt: pkg=azure-cli state=latest update_cache=yes

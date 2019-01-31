@@ -1,5 +1,15 @@
 # Helpful Azure CLI IoT Snippets
 
+__Prerequisites__
+
+* [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) installed.
+
+  >Assumes CLI Version = azure-cli (2.0.54)  ** Required for RBAC changes
+
+  ```bash
+  az extension add --name azure-cli-iot-ext
+  ```
+
 ### Creating a IoT Hub
 
 ```bash

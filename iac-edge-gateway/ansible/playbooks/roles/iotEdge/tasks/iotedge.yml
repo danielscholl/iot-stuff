@@ -1,0 +1,205 @@
+---
+# This role sets up an Azure IoT Edge.
+
+- name: Install the Apt Key
+  apt_key:
+    url: "{{ edge_apt_key_url }}"
+    state: present
+
+- name: Add the Microsoft repository
+  apt_repository:
+    repo: "{{ edge_apt_repository }}"
+    state: present
+    filename: microsoft-prod
+    update_cache: true
+
+- name: Install Container Runtime
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - moby-engine
+    - moby-cli
+
+- name: Install IoT Edge security daemon
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - iotedge
+
+- name: Log Details
+  block:
+    - debug:
+        msg: "Configuring connection for IoT Edge '{{ azure_edge_name }}'."
+    - debug:
+        msg: "Connecting to hub '{{ azure_iot_hub_name }}'."
+    - debug:
+        msg: "Known edge facts: '{{ azure_groups }}'."
+      no_log: true
+  when: azure_groups is defined
+
+
+- name: Copy Certificates to server
+  copy:
+    src: "{{ item }}"
+    dest: /home/terraform/certs/
+    owner: terraform
+    group: terraform
+    mode: 0644
+  with_fileglob:
+    - files/*.pem
+
+- name: Copy certificate authority to trusted ca path of the os
+  copy:
+    src: 'files/azure-iot.root.ca.crt'
+    dest: '/usr/local/share/ca-certificates/'
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - update trusted ca
+
+- name: Copy certificate authority cert to home
+  copy:
+    src: /usr/local/share/ca-certificates/azure-iot.root.ca.crt
+    dest: "/home/terraform/certs/azure-iot.root.ca.cert.pem"
+    owner: terraform
+    group: terraform
+    mode: 0644
+    remote_src: yes
+
+- name: Update host file entry
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^127\.0\.0\.1'
+    line: '127.0.0.1 localhost {{ ansible_hostname }}.local'
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Create the Certificate Variables
+  set_fact:
+    device_ca_cert: "/home/terraform/certs/EdgeVM.cert.pem"
+    device_ca_pk: "/home/terraform/certs/EdgeVM.key.pem"
+    trusted_ca_certs: "/home/terraform/certs/azure-iot.root.ca.cert.pem"
+  no_log: true
+
+
+- name : Uncomment Certificate Configuration
+  replace:
+    path: /etc/iotedge/config.yaml
+    regexp: '# certificates:'
+    replace: 'certificates:'
+  register: update_config
+  when:
+    - device_ca_cert is defined
+    - device_ca_pk is defined
+    - trusted_ca_certs is defined
+
+- name: Configure the Device CA Certificate
+  replace:
+    path: /etc/iotedge/config.yaml
+    regexp: '#   device_ca_cert: "<ADD PATH TO DEVICE CA CERTIFICATE HERE>"'
+    replace: '  device_ca_cert: "{{ device_ca_cert }}"'
+  register: update_config
+  when:
+    - device_ca_cert is defined
+    - device_ca_pk is defined
+    - trusted_ca_certs is defined
+
+- name: Configure the Trusted CA Certificate
+  replace:
+    path: /etc/iotedge/config.yaml
+    regexp: '#   trusted_ca_certs: "<ADD PATH TO TRUSTED CA CERTIFICATES HERE>"'
+    replace: '  trusted_ca_certs: "{{ trusted_ca_certs }}"'
+  register: update_config
+  when:
+    - device_ca_cert is defined
+    - device_ca_pk is defined
+    - trusted_ca_certs is defined
+
+- name: Configure the Device CA Key
+  replace:
+    path: /etc/iotedge/config.yaml
+    regexp: '#   device_ca_pk: "<ADD PATH TO DEVICE CA PRIVATE KEY HERE>"'
+    replace: '  device_ca_pk: "{{ device_ca_pk }}"'
+  register: update_config
+  when:
+    - device_ca_cert is defined
+    - device_ca_pk is defined
+    - trusted_ca_certs is defined
+
+- name: Configure the IoT Edge security daemon
+  replace:
+    path: /etc/iotedge/config.yaml
+    regexp: '^(\s+device_connection_string: ").*(")'
+    replace: '\1{{ connection_string_primary }}\2'
+  register: update_config
+  when:
+    - connection_string_primary is defined
+
+- name: Delete Quick Start Certs
+  file:
+    path: /var/lib/iotedge/hsm/certs
+    state: absent
+
+- name: Delete Quick Start Keys
+  file:
+    path: /var/lib/iotedge/hsm/cert_keys
+    state: absent
+
+- name: Create the connection string variable
+  set_fact:
+    connection_string_primary: "HostName=\
+      {{ azure_iot_hub_name }}.azure-devices.net;\
+      DeviceId={{ azure_edge_name }};\
+      SharedAccessKey={{ azure_groups[azure_edge_name].primaryKey }}"
+  no_log: true
+  when:
+    - azure_groups is defined
+    - azure_edge_name in azure_groups
+
+- name: Configure the IoT Edge security daemon
+  replace:
+    path: /etc/iotedge/config.yaml
+    regexp: '^(\s+device_connection_string: ").*(")'
+    replace: '\1{{ connection_string_primary }}\2'
+  register: update_config
+  when:
+    - connection_string_primary is defined
+
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+  when:
+    - update_config.changed is defined
+
+- name: Restart the IoT Edge security daemon
+  service:
+    name: iotedge
+    state: restarted
+  when:
+    - update_config.changed
+  register: restart_iotedge1
+  ignore_errors: true
+  tags:
+    - skip_ansible_lint
+
+- name: Get Logs on Restart Failure
+  command: journalctl -xe -u iotedge --since "5 minutes ago" --no-pager
+  when:
+    - restart_iotedge1.failed is defined and restart_iotedge1.failed
+
+- name: Restart Service Retry x4
+  service:
+    name: iotedge
+    state: restarted
+  register: restart_iotedge2_5
+  retries: 4
+  delay: 5
+  until: not restart_iotedge2_5.failed
+  when:
+    - ansible_distribution == 'Ubuntu'
+    - restart_iotedge1.failed is defined and restart_iotedge1.failed
