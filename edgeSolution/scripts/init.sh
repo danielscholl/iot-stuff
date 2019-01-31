@@ -16,7 +16,7 @@ fi
 
 if [ ! -z $2 ]; then EDGE_VM=$2; fi
 if [ -z $REGISTRY_NAME ]; then
-  REGISTRY_NAME="danielscholl"
+  REGISTRY_NAME=$(az acr list --resource-group IoTEdgeResources --query [].name -otsv)
 fi
 
 
@@ -45,7 +45,7 @@ REGISTRY_PASSWORD=$(az acr credential show \
 
 tput setaf 2; echo 'Creating the solution .envrc file...' ; tput sgr0
 
-cat > ../.envrc << EOF
+cat > .env << EOF
 # CONNECTION STRINGS
 IOTHUB_CONNECTION_STRING="${IOT_HUB_CS}"
 

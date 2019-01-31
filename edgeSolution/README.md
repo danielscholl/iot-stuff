@@ -15,6 +15,9 @@ This module code base should fully support InnerLoop Development using VSCode an
 
 
 ```bash
+# Install the Required Environment File
+npm install
+
 # Build and Push the Modules to the Registry
 npm run build
 
