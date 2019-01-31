@@ -21,9 +21,9 @@ npm install
 # Build and Push the Modules to the Registry
 npm run build
 
-############
-### WARNING:  The IoT Edge Deployment Manifest  must be generated first
-############
+############                                            ############
+### WARNING   Generate The IoT Edge Deployment Manifest  WARNING ###
+############                                            ############
 
 # Deploy the Modules to the edge
 npm run deploy
