@@ -25,3 +25,6 @@ __Run the Container(s)__
   docker-compose up
   ```
 
+> Reference Links
+  - [https://docs.microsoft.com/en-us/azure/iot-hub/quickstart-control-device-dotnet](https://docs.microsoft.com/en-us/azure/iot-hub/quickstart-control-device-node)
+  - [https://docs.microsoft.com/en-us/azure/iot-hub/quickstart-control-device-dotnet](https://docs.microsoft.com/en-us/azure/iot-hub/quickstart-control-device-node)
