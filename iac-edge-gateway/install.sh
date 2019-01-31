@@ -247,7 +247,7 @@ REGISTRY_PASSWORD=$(az acr credential show \
 
 tput setaf 2; echo 'Creating the solution .env file...' ; tput sgr0
 
-cat > ../edgeSolution/.env << EOF3
+cat > ../edgeSolution/.envrc << EOF3
 # CONNECTION STRINGS
 IOTHUB_CONNECTION_STRING="${IOT_HUB_CS}"
 DEVICE_CONNECTION_STRING="${EDGE_DEVICE_CS}"

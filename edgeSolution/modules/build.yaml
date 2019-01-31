@@ -1,0 +1,9 @@
+version: 1.0-preview-1
+steps:
+  - build: -t {{.Run.Registry}}/filtermodule:{{.Run.ID}} -t {{.Run.Registry}}/filtermodule:0.0.1-amd64 -f ./filterModule/Dockerfile.amd64 ./filterModule
+  - build: -t {{.Run.Registry}}/compressmodule:{{.Run.ID}} -t {{.Run.Registry}}/compressmodule:0.0.1-amd64 -f ./compressModule/Dockerfile.amd64 ./compressModule
+  - push:
+    - {{.Run.Registry}}/filtermodule:{{.Run.ID}}
+    - {{.Run.Registry}}/filtermodule:0.0.1-amd64
+    - {{.Run.Registry}}/compressmodule:{{.Run.ID}}
+    - {{.Run.Registry}}/compressmodule:0.0.1-amd64
