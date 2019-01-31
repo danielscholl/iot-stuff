@@ -53,8 +53,7 @@ const Device = function (config, Model) {
     telemetry.humidity = 60 + (Math.random() * 20);
 
     let message = new Message(telemetry.toJson());
-    message.properties.add('version', Package.version);
-    message.properties.add('Telemetry', 'Climate');
+    message.properties.add('TelemetryType', 'Climate');
 
     log.info('Sending message: ' + message.getData());
     client.sendEvent(message, function (err) {

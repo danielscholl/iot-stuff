@@ -6,5 +6,12 @@ services:
     environment:
       DEVICE: $DEVICE_JS
       HUB_CONNECTION_STRING: $HUB_CONNECTION_STRING
-      MESSAGE_INTERVAL: 6
+      MESSAGE_INTERVAL: $MESSAGE_INTERVAL
       LOG_LEVEL: debug
+  device-net:
+    build: dotnet
+    image: localhost:5000/iot-control-net:latest
+    environment:
+      DEVICE: $DEVICE_NET
+      HUB_CONNECTION_STRING: $HUB_CONNECTION_STRING
+      MESSAGE_INTERVAL: $MESSAGE_INTERVAL

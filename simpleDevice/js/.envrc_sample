@@ -1,0 +1,9 @@
+# IoT Hub Information
+export HUB="<hub_name>"
+export HUB_CONNECTION_STRING="<hub_connection>"
+
+# IOT DEVICE INFORMATION
+export DEVICE="DirectDevice-JS"
+export DEVICE_CONNECTION_STRING="<device_connection>"
+
+export LOG_LEVEL=debug

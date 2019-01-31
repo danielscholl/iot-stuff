@@ -1,12 +1,15 @@
-# Simple Device
+# SimpleDevice
 
-## Docker
+> The code base is driven off of environment variable settings.  A convenient way to set these is using [direnv](https://github.com/direnv/direnv) and then setting up the .envrc file.  _See the sample .envrc_sample_
 
-1. Build the Container(s)
 
-  `docker-compose build`
+__Build the Container(s)__
 
-2. Run the Container(s)
+  ```bash
+  docker-compose build
+  ```
+
+__Run the Container(s)__
 
   ```bash
   Hub="cli-hub" DEVICE_JS="DirectDevice-JS" DEVICE_NET="DirectDevice-NET"
@@ -22,11 +25,4 @@
 
   # Build and Run the Docker Containers
   docker-compose up --build
-
-  # Adjust the Interval Spped
-  Data="{ 'methodName': 'setInterval', 'payload': 10, 'responseTimeoutInSeconds': 30 }"
-  az iot device c2d-message send \
-    --hub-name $Hub --device-id $DEVICE_JS \
-    --data "{ 'methodName': 'setInterval', 'payload': 10, 'responseTimeoutInSeconds': 30 }"
-}
   ```
