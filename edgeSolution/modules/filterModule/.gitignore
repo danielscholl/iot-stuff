@@ -1,6 +1,4 @@
 # .NET Core
-module.json
-
 project.lock.json
 project.fragment.lock.json
 artifacts/

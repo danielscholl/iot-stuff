@@ -16,7 +16,7 @@ fi
 
 if [ ! -z $2 ]; then EDGE_VM=$2; fi
 if [ -z $REGISTRY_NAME ]; then
-  REGISTRY_NAME=$(az acr list --resource-group IoTEdgeResources --query [].name -otsv)
+  REGISTRY_NAME=$(az acr list --resource-group $RESOURCE_GROUP --query [].name -otsv)
 fi
 
 

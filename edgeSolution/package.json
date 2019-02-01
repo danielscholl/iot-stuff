@@ -1,11 +1,14 @@
 {
   "name": "iot-solution-compress",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Used only for Task Runner purposes",
   "scripts": {
-    "install": "./scripts//init.sh",
-    "build": "./scripts/build.sh",
+    "postinstall": "./scripts//init.sh",
+    "build": "cross-var ./scripts/build.sh $npm_package_version",
     "deploy": "./scripts/deploy.sh",
     "clean": "./scripts/clean.sh"
+  },
+  "dependencies": {
+    "cross-var": "^1.1.0"
   }
 }
