@@ -4,11 +4,18 @@
   "description": "Simple Device Connecting to IOT Hub",
   "main": "index.js",
   "scripts": {
+    "create:sas": "az iot hub device-identity create -n $HUB -d $DEVICE -ojsonc",
+    "create:509": "az iot hub device-identity create -n $HUB -d $DEVICE --am x509_thumbprint --od cert && mv cert/*-cert.pem cert/device-cert.pem && mv cert/*-key.pem cert/device-key.pem",
     "monitor": "az iot hub monitor-events --hub-name $HUB --device-id $DEVICE",
     "start": "node index.js",
+    "send": "DEVICE_CONNECTION_STRING=$(az iot hub device-identity show-connection-string -n $HUB -d $DEVICE -otsv) node index.js",
+    "connection": "az iot hub device-identity show-connection-string -n $HUB -d $DEVICE -otsv",
     "test": "tape test/*.spec.js",
     "watch": "watch 'clear && npm run -s test' .",
-    "clean": "rm -rf node_modules"
+    "clean": "rm -rf node_modules",
+    "delete": "az iot hub device-identity delete -n $HUB -d $DEVICE -ojsonc && rm cert/*.pem",
+    "show": "az iot hub device-identity show -n $HUB -d $DEVICE",
+    "list": "az iot hub device-identity list -n $HUB -otable"
   },
   "author": "",
   "license": "MIT",

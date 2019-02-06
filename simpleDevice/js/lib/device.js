@@ -16,6 +16,7 @@ const Device = function (config, Model) {
 
   let self = this;
   let client = Client.fromConnectionString(config.connectionString, Protocol);
+  client.setOptions(config.options);
   let intervalLoop = null;
 
   //////////////////////// INITIALIZATION DONE
