@@ -30,3 +30,10 @@ __Run the Container(s)__
 > Reference Links
   - [https://docs.microsoft.com/en-us/azure/iot-hub/quickstart-send-telemetry-dotnet](https://docs.microsoft.com/en-us/azure/iot-hub/quickstart-send-telemetry-dotnet)
   - [https://docs.microsoft.com/en-us/azure/iot-hub/quickstart-send-telemetry-node](https://docs.microsoft.com/en-us/azure/iot-hub/quickstart-send-telemetry-node)
+
+
+docker run \
+  -e "DEVICE=$DEVICE_JS" \
+  -e "DEVICE_CONNECTION_STRING=$DEVICE_JS_CONNECTION" \
+  -v "$(pwd)/js/cert/:/usr/src/app/cert" \
+  localhost:5000/iot-device-js:latest

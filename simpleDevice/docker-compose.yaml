@@ -3,6 +3,8 @@ services:
   device-js:
     build: js
     image: localhost:5000/iot-device-js:latest
+    volumes:
+       - ./js/cert:/usr/src/app/cert
     environment:
       DEVICE: $DEVICE_JS
       DEVICE_CONNECTION_STRING: $DEVICE_JS_CONNECTION
@@ -11,8 +13,11 @@ services:
   device-net:
     build: dotnet
     image: localhost:5000/iot-device-net:latest
+    volumes:
+       - ./dotnet/cert:/usr/src/app/cert
     environment:
       DEVICE: $DEVICE_NET
       DEVICE_CONNECTION_STRING: $DEVICE_NET_CONNECTION
       MESSAGE_INTERVAL: 2000
       LOG_LEVEL: info
+
