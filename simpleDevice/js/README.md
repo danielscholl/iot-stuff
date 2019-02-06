@@ -9,12 +9,12 @@ __Manage a Device__
     npm run create:sas  # Create a Device using SAS Token
     npm run create:509  # Create a Device using x509 Certificate (Self Signed)
 
-    npm run list  # Show Hub Devices
-    npm run show  # Show Created Device
-    npm run delete # Delete Device
+    npm run list        # Show Hub Devices
+    npm run show        # Show Created Device
+    npm run delete      # Delete Device
 
-    npm run send  # Send Messages to Hub
-    npm run monitor  # Monitor Messages for Device
+    npm run send        # Send Messages to Hub
+    npm run monitor     # Monitor Messages for Device
   ```
 
 
